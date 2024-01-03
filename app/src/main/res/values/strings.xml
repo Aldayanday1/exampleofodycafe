@@ -1,0 +1,32 @@
+<resources>
+
+    <string name="app_name">APLIKASI ODY CAFE</string>
+
+    <string name="idpesanan">ID Pesanan*</string>
+    <string name="nama">Nama Pembeli*</string>
+    <string name="detail">Detail Pembelian*</string>
+    <string name="metode">Metode Pembayaran*</string>
+    <string name="tanggal">Tanggal Transaksi*</string>
+
+    <string name="idpesanan1">ID Pesanan :</string>
+    <string name="nama1">Nama Pembeli :</string>
+    <string name="detail1">Detail Pembelian :</string>
+    <string name="metode1">Metode Pembayaran :</string>
+    <string name="tanggal1">Tanggal Transaksi  :</string>
+
+    <string name="entry_pesanan">Tambah Pesanan</string>
+    <string name="detail_pesanan">Detail Pesanan</string>
+    <string name="edit_pesanan">Edit Pesanan</string>
+
+    <string name="deskripsi_no_item">Ups, Sorry :( Data Kosong, Tap + untuk Menambahkan Data</string>
+    <string name="required_field">* required fields</string>
+    <string name="btn_submit">Submit</string>
+    <string name="back">Back</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="delete">Hapus</string>
+    <string name="update">Edit</string>
+    <string name="attention">Perhatian</string>
+    <string name="tanya">Apakah anda yakin menghapus ini?</string>
+
+</resources>
