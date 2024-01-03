@@ -1,70 +1,147 @@
 package project.roomsiswa.model
 
-import Siswa
+import Menu
+import Pesanan
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import project.roomsiswa.repositori.RepositoriSiswa
+import project.roomsiswa.repositori.RepositoriMenu
+import project.roomsiswa.repositori.RepositoriPesanan
 
-class EntryViewModel(private val repositoriSiswa: RepositoriSiswa): ViewModel(){
+class EntryViewModel(
+    private val repositoriMenu: RepositoriMenu,
+    private val repositoriPesanan: RepositoriPesanan
+): ViewModel() {
+
+    /* ------------- MENU ------------ */
 
     /*
-    * Berisi status Siswa saat ini
+    * Berisi status Menu saat ini
     */
-    var uiStateSiswa by mutableStateOf(UIStateSiswa())
+    var uiStateMenu by mutableStateOf(UIStateMenu())
         private set
 
     /* Fungsi untuk memvalidasi input */
-    private fun validasiInput(uiState: DetailSiswa = uiStateSiswa.detailSiswa): Boolean {
-        return with(uiState){
-            /**  memeriksa apakah nilai id tidak sama dengan nilai defaultnya (0). */
-            id != 0 && nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+    private fun validasiInput(uiState: DetailMenu = uiStateMenu.detailMenu): Boolean {
+        return with(uiState) {
+            idmenu != 0 && menu.isNotBlank() && harga.isNotBlank() && ketersediaan.isNotBlank() && kategori.isNotBlank()
         }
     }
-    fun updateUiState(detailSiswa: DetailSiswa){
-        uiStateSiswa =
-            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
+
+    fun updateUiState(detailMenu: DetailMenu) {
+        uiStateMenu = UIStateMenu(detailMenu = detailMenu, isEntryValid = validasiInput(detailMenu))
     }
 
     // insert
-    suspend fun saveSiswa(){
-        if (validasiInput()){
-            repositoriSiswa.insertSiswa(uiStateSiswa.detailSiswa.toSiswa())
+    suspend fun saveMenu() {
+        if (validasiInput()) {
+            repositoriMenu.insertMenu(uiStateMenu.detailMenu.toMenu())
+        }
+    }
+
+    /* ------------- PESANAN ------------ */
+
+    /*
+    * Berisi status Pesanan saat ini
+    */
+    var uiStatePesanan by mutableStateOf(UIStatePesanan())
+        private set
+
+    /* Fungsi untuk memvalidasi input Pesanan */
+    private fun validasiInputPesanan(uiState: DetailPesanan = uiStatePesanan.detailPesanan): Boolean {
+        return with(uiState) {
+            idpesanan != 0 && nama.isNotBlank() && detail.isNotBlank() && metode.isNotBlank() && tanggal.isNotBlank()
+        }
+    }
+
+    fun updateUiStatePesanan(detailPesanan: DetailPesanan) {
+        uiStatePesanan = UIStatePesanan(detailPesanan = detailPesanan, isEntryValid = validasiInputPesanan(detailPesanan))
+    }
+
+    // insert Pesanan
+    suspend fun savePesanan() {
+        if (validasiInputPesanan()) {
+            repositoriPesanan.insertPesanan(uiStatePesanan.detailPesanan.toPesanan())
         }
     }
 }
 
-// Mewakili Status Ui untuk Siswa
-data class UIStateSiswa(
-    val detailSiswa: DetailSiswa = DetailSiswa(),
+/* ------------- MENU ------------ */
+
+// Mewakili Status Ui untuk Menu
+data class UIStateMenu(
+    val detailMenu: DetailMenu = DetailMenu(),
     val isEntryValid: Boolean = false
 )
-
-data class DetailSiswa(
-    val id: Int? = null, // Tipe data integer yang dapat berisi nilai null (nullable),
-    val nama: String = "",
-    val alamat: String = "",
-    val telpon: String = "",
+data class DetailMenu(
+    val idmenu: Int? = null,
+    val menu: String = "",
+    val harga: String = "",
+    val ketersediaan: String = "",
+    val kategori: String = "",
 )
 
-// Fungsi untuk mengkonversi data input ke data dalam tabel sesuai jenis datanya
-fun DetailSiswa.toSiswa(): Siswa = Siswa(
-    id = id ?: 0, // Jika id null, maka gunakan nilai default 0 setelah operator elvis
-    nama = nama,
-    alamat = alamat,
-    telpon = telpon
+// Fungsi untuk mengkonversi data input ke data dalam tabel Menu
+fun DetailMenu.toMenu(): Menu = Menu(
+    idmenu = idmenu ?: 0,
+    menu = menu,
+    harga = harga,
+    ketersediaan = ketersediaan,
+    kategori = kategori
 )
-
-fun Siswa.toUiStateSiswa(isEntryValid: Boolean = false): UIStateSiswa = UIStateSiswa(
-    detailSiswa = this.toDetailSiswa(),
+// Fungsi untuk mengubah Menu menjadi UIStateMenu
+fun Menu.toUiStateMenu(isEntryValid: Boolean = false): UIStateMenu = UIStateMenu(
+    detailMenu = this.toDetailMenu(),
     isEntryValid = isEntryValid
 )
 
-fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(
-    id = id,
-    nama = nama,
-    alamat = alamat,
-    telpon = telpon
+// Fungsi untuk mengubah Menu menjadi DetailMenu
+fun Menu.toDetailMenu(): DetailMenu = DetailMenu(
+    idmenu = idmenu,
+    menu = menu,
+    harga = harga,
+    ketersediaan = ketersediaan,
+    kategori = kategori
 )
 
+/* ------------- PESANAN ------------ */
+
+// Mewakili Status Ui untuk Pesanan
+data class UIStatePesanan(
+    val detailPesanan: DetailPesanan = DetailPesanan(),
+    val isEntryValid: Boolean = false
+)
+
+data class DetailPesanan(
+    val idpesanan: Int? = null,
+    val nama: String = "",
+    val detail: String = "",
+    val metode: String = "",
+    val tanggal: String = "",
+)
+
+// Fungsi untuk mengkonversi data input ke data dalam tabel Pesanan
+fun DetailPesanan.toPesanan(): Pesanan = Pesanan(
+    idpesanan = idpesanan ?: 0,
+    nama = nama,
+    detail = detail,
+    metode = metode,
+    tanggal = tanggal,
+    idMenuForeignKey = 0 // Sesuaikan dengan nilai yang diinginkan
+)
+
+// Fungsi untuk mengubah Pesanan menjadi UIStatePesanan
+fun Pesanan.toUiStatePesanan(isEntryValid: Boolean = false): UIStatePesanan = UIStatePesanan(
+    detailPesanan = this.toDetailPesanan(),
+    isEntryValid = isEntryValid
+)
+
+// Fungsi untuk mengubah Pesanan menjadi DetailPesanan
+fun Pesanan.toDetailPesanan(): DetailPesanan = DetailPesanan(
+    idpesanan = idpesanan,
+    nama = nama,
+    detail = detail,
+    metode = metode,
+    tanggal = tanggal
+)

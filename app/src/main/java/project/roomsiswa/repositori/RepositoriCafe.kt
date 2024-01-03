@@ -32,16 +32,3 @@ interface RepositoriPesanan {
     fun getPesananByMenuId(idMenuForeignKey: Int): Flow<List<Pesanan>>
     suspend fun checkMenuExistence(idMenuForeignKey: Int): Int
 }
-
-//
-//interface RepositoriSiswa {
-//    suspend fun insertSiswa(siswa: Siswa)
-//
-//    suspend fun updateSiswa(siswa: Siswa)
-//
-//    suspend fun deleteSiswa(siswa: Siswa)
-//
-//    fun getSiswaStream(id: Int): Flow<Siswa?>
-//
-//    fun getAllSiswaStream(): Flow<List<Siswa>>
-//}

@@ -47,7 +47,7 @@ import project.roomsiswa.navigasi.SiswaTopAppBar
 object DetailsDestination : DestinasiNavigasi {
     override val route = "item_details"
     override val titleRes = R.string.detail_siswa
-    const val siswaIdArg = "itemId"
+    const val detailIdArg = "itemId"
     val routeWithArgs = "$route/{$siswaIdArg}"
 }
 

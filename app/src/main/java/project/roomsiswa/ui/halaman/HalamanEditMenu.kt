@@ -18,8 +18,8 @@ import project.roomsiswa.navigasi.SiswaTopAppBar
 object ItemEditDestination : DestinasiNavigasi {
     override val route = "item_edit"
     override val titleRes = R.string.edit_siswa
-    const val itemIdArg = "itemId"
-    val routeWithArgs = "$route/{$itemIdArg}"
+    const val editIdArg = "itemId"
+    val routeWithArgs = "$route/{$editIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

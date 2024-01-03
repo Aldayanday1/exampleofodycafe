@@ -9,74 +9,74 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import project.roomsiswa.repositori.RepositoriSiswa
+import project.roomsiswa.repositori.RepositoriMenu
+import project.roomsiswa.repositori.RepositoriPesanan
 import project.roomsiswa.ui.halaman.ItemEditDestination
 
 class EditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val repositoriSiswa: RepositoriSiswa
+    private val repositoriMenu: RepositoriMenu,
+    private val repositoriPesanan: RepositoriPesanan
+
 ) : ViewModel(){
-    var siswaUiState by mutableStateOf(UIStateSiswa())
+    var menuUiState by mutableStateOf(UIStateMenu())
+        private set
+    var pesananUiState by mutableStateOf(UIStatePesanan())
         private set
 
-    private val itemId: Int = checkNotNull(savedStateHandle[ItemEditDestination.itemIdArg])
+    private val editId: Int = checkNotNull(savedStateHandle[ItemEditDestination.editIdArg])
+
     // get (id)
     init {
         viewModelScope.launch {
-            siswaUiState = repositoriSiswa.getSiswaStream(itemId)
+            menuUiState = repositoriMenu.getMenuStream(editId)
                 .filterNotNull()
                 .first()
-                .toUiStateSiswa(true)
+                .toUiStateMenu(true)
+            pesananUiState = repositoriPesanan.getPesananStream(editId)
+                .filterNotNull()
+                .first()
+                .toUiStatePesanan(true)
         }
     }
-    suspend fun updateSiswa(){
-        if (validasiInput(siswaUiState.detailSiswa)){
-            repositoriSiswa.updateSiswa(siswaUiState.detailSiswa.toSiswa())
+
+    suspend fun updateMenu(){
+        if (validasiInputMenu(menuUiState.detailMenu)){
+            repositoriMenu.updateMenu(menuUiState.detailMenu.toMenu())
         }
         else {
-            println("Data not valid")
+            println("Menu Data not valid")
         }
     }
-    fun updateUiState(detailSiswa: DetailSiswa){
-        siswaUiState =
-            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
+    suspend fun updatePesanan(){
+        if (validasiInputPesanan(pesananUiState.detailPesanan)){
+            repositoriPesanan.updatePesanan(pesananUiState.detailPesanan.toPesanan())
+        }
+        else {
+            println("Pesanan Data not valid")
+        }
     }
-    private fun validasiInput(uiState: DetailSiswa = siswaUiState.detailSiswa ): Boolean {
+
+    fun updateUiStateMenu(detailMenu: DetailMenu){
+        menuUiState = UIStateMenu(
+            detailMenu = detailMenu,
+            isEntryValid = validasiInputMenu(detailMenu))
+    }
+    fun updateUiStatePesanan(detailPesanan: DetailPesanan){
+        pesananUiState = UIStatePesanan(
+            detailPesanan = detailPesanan,
+            isEntryValid = validasiInputPesanan(detailPesanan))
+    }
+
+    private fun validasiInputMenu(uiState: DetailMenu = menuUiState.detailMenu): Boolean {
         return with(uiState) {
-            id != 0 && nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+            idmenu != 0 && menu.isNotBlank() && harga.isNotBlank() && ketersediaan.isNotBlank() && kategori.isNotBlank()
+        }
+    }
+    private fun validasiInputPesanan(uiState: DetailPesanan = pesananUiState.detailPesanan): Boolean {
+        return with(uiState) {
+            idpesanan != 0 && nama.isNotBlank() && detail.isNotBlank() && metode.isNotBlank() && tanggal.isNotBlank()
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
