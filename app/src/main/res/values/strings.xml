@@ -2,6 +2,20 @@
 
     <string name="app_name">APLIKASI ODY CAFE</string>
 
+    // MENU
+    <string name="idmenu">ID Menu*</string>
+    <string name="menu">Menu*</string>
+    <string name="harga">Harga*</string>
+    <string name="ketersediaan">Ketersediaan*</string>
+    <string name="kategori">Kategori*</string>
+
+    <string name="idmenu1">ID Menu :</string>
+    <string name="menu1">Menu :</string>
+    <string name="harga1">Harga :</string>
+    <string name="ketersediaan1">Ketersediaan :</string>
+    <string name="kategori1">Kategori  :</string>
+
+    // PESANAN
     <string name="idpesanan">ID Pesanan*</string>
     <string name="nama">Nama Pembeli*</string>
     <string name="detail">Detail Pembelian*</string>
@@ -14,11 +28,21 @@
     <string name="metode1">Metode Pembayaran :</string>
     <string name="tanggal1">Tanggal Transaksi  :</string>
 
+
+    // MODIFY DATA
+    <string name="entry_menu">Tambah Menu</string>
+    <string name="detail_menu">Detail Menu</string>
+    <string name="edit_menu">Edit Menu</string>
+
     <string name="entry_pesanan">Tambah Pesanan</string>
     <string name="detail_pesanan">Detail Pesanan</string>
     <string name="edit_pesanan">Edit Pesanan</string>
 
-    <string name="deskripsi_no_item">Ups, Sorry :( Data Kosong, Tap + untuk Menambahkan Data</string>
+    // NAV
+    <string name="nav_menu">Menu</string>
+    <string name="nav_pesanan">Pesanan</string>
+
+    <string name="deskripsi_no_item">Ups, Sorry :( Data Kosong</string>
     <string name="required_field">* required fields</string>
     <string name="btn_submit">Submit</string>
     <string name="back">Back</string>
@@ -27,6 +51,7 @@
     <string name="delete">Hapus</string>
     <string name="update">Edit</string>
     <string name="attention">Perhatian</string>
+    <string name="welcome">Welcome!</string>
     <string name="tanya">Apakah anda yakin menghapus ini?</string>
 
 </resources>

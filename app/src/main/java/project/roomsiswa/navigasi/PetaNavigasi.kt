@@ -21,22 +21,23 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import project.roomsiswa.R
 import project.roomsiswa.ui.halaman.DestinasiEntry
-import project.roomsiswa.ui.halaman.DestinasiHome
+import project.roomsiswa.ui.halaman.DestinasiMenu
+import project.roomsiswa.ui.halaman.DestinasiStart
 import project.roomsiswa.ui.halaman.DetailsDestination
 import project.roomsiswa.ui.halaman.DetailsScreen
 import project.roomsiswa.ui.halaman.EntrySiswaScreen
-import project.roomsiswa.ui.halaman.HomeScreen
 import project.roomsiswa.ui.halaman.ItemEditDestination
 import project.roomsiswa.ui.halaman.ItemEditScreen
+import project.roomsiswa.ui.halaman.MenuScreen
 
 @Composable
-fun SiswaApp(navController: NavHostController = rememberNavController()){
+fun OdyCafeApp(navController: NavHostController = rememberNavController()){
     HostNavigasi(navController = navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SiswaTopAppBar(
+fun CafeTopAppBar(
     title: String,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
@@ -65,11 +66,11 @@ fun HostNavigasi(
 ){
     NavHost(
         navController = navController,
-        startDestination = DestinasiHome.route,
+        startDestination = DestinasiStart.route,
         modifier = Modifier
     ) {
-        composable(DestinasiHome.route){
-            HomeScreen(
+        composable(DestinasiMenu.route){
+            MenuScreen(
                 navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
                 onDetailClick = {
                     navController.navigate("${DetailsDestination.route}/$it")
@@ -85,7 +86,7 @@ fun HostNavigasi(
         }
         composable(
             DetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(DetailsDestination.siswaIdArg) {
+            arguments = listOf(navArgument(DetailsDestination.detailIdArg) {
                 type = NavType.IntType
             })
         ) {
@@ -98,7 +99,7 @@ fun HostNavigasi(
         }
         composable(
             ItemEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
+            arguments = listOf(navArgument(ItemEditDestination.editIdArg) {
                 type = NavType.IntType
             })
         ) {

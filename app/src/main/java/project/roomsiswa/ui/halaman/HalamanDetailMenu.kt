@@ -42,13 +42,14 @@ import project.roomsiswa.model.ItemDetailsUiState
 import project.roomsiswa.model.PenyediaViewModel
 import project.roomsiswa.model.toSiswa
 import project.roomsiswa.navigasi.DestinasiNavigasi
+import project.roomsiswa.navigasi.MenuTopAppBar
 import project.roomsiswa.navigasi.SiswaTopAppBar
 
 object DetailsDestination : DestinasiNavigasi {
     override val route = "item_details"
     override val titleRes = R.string.detail_siswa
     const val detailIdArg = "itemId"
-    val routeWithArgs = "$route/{$siswaIdArg}"
+    val routeWithArgs = "$route/{$detailIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,7 +64,7 @@ fun DetailsScreen(
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            SiswaTopAppBar(
+            MenuTopAppBar(
                 title = stringResource(DetailsDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
