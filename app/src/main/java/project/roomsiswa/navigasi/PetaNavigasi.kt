@@ -20,15 +20,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import project.roomsiswa.R
-import project.roomsiswa.ui.halaman.DestinasiEntry
 import project.roomsiswa.ui.halaman.DestinasiMenu
+import project.roomsiswa.ui.halaman.DestinasiMenuEntry
 import project.roomsiswa.ui.halaman.DestinasiStart
-import project.roomsiswa.ui.halaman.DetailsDestination
+import project.roomsiswa.ui.halaman.DetailsMenuDestination
 import project.roomsiswa.ui.halaman.DetailsScreen
-import project.roomsiswa.ui.halaman.EntrySiswaScreen
-import project.roomsiswa.ui.halaman.ItemEditDestination
+import project.roomsiswa.ui.halaman.EntryMenuScreen
+import project.roomsiswa.ui.halaman.ItemEditMenuDestination
 import project.roomsiswa.ui.halaman.ItemEditScreen
 import project.roomsiswa.ui.halaman.MenuScreen
+import project.roomsiswa.ui.halaman.StartScreen
 
 @Composable
 fun OdyCafeApp(navController: NavHostController = rememberNavController()){
@@ -69,37 +70,46 @@ fun HostNavigasi(
         startDestination = DestinasiStart.route,
         modifier = Modifier
     ) {
+        composable(DestinasiStart.route){
+            StartScreen (
+                onNextButtonMenuClicked = {navController.navigate(DestinasiMenu.route)},
+                onNextButtonPesananClicked = {navController.navigate(DestinasiMenu.route)},
+            )
+        }
+
+        /* ------------- NAV MENU ------------ */
+
         composable(DestinasiMenu.route){
             MenuScreen(
-                navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
+                navigateToItemEntry = {navController.navigate(DestinasiMenuEntry.route)},
                 onDetailClick = {
-                    navController.navigate("${DetailsDestination.route}/$it")
+                    navController.navigate("${DetailsMenuDestination.route}/$it")
                 },
             )
         }
-        composable(DestinasiEntry.route){
-            EntrySiswaScreen(
+        composable(DestinasiMenuEntry.route){
+            EntryMenuScreen(
                 navigateBack = { navController.popBackStack()},
                 onNavigateUp = { navController.navigateUp() },
                 modifier = Modifier
             )
         }
         composable(
-            DetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(DetailsDestination.detailIdArg) {
+            DetailsMenuDestination.routeWithArgs,
+            arguments = listOf(navArgument(DetailsMenuDestination.detailIdArg) {
                 type = NavType.IntType
             })
         ) {
             DetailsScreen(
                 navigateBack = { navController.popBackStack() },
                 navigateToEditItem = {
-                    navController.navigate("${ItemEditDestination.route}/$it")
+                    navController.navigate("${ItemEditMenuDestination.route}/$it")
                 }
             )
         }
         composable(
-            ItemEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemEditDestination.editIdArg) {
+            ItemEditMenuDestination.routeWithArgs,
+            arguments = listOf(navArgument(ItemEditMenuDestination.editIdArg) {
                 type = NavType.IntType
             })
         ) {
@@ -108,5 +118,7 @@ fun HostNavigasi(
                 onNavigateUp = { navController.navigateUp() }
             )
         }
+
+        /* ------------- NAV PESANAN ------------ */
     }
 }

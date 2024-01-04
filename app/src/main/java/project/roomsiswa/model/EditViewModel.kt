@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import project.roomsiswa.repositori.RepositoriMenu
 import project.roomsiswa.repositori.RepositoriPesanan
-import project.roomsiswa.ui.halaman.ItemEditDestination
+import project.roomsiswa.ui.halaman.ItemEditMenuDestination
 
 class EditViewModel(
     savedStateHandle: SavedStateHandle,
@@ -24,19 +24,20 @@ class EditViewModel(
     var pesananUiState by mutableStateOf(UIStatePesanan())
         private set
 
-    private val editId: Int = checkNotNull(savedStateHandle[ItemEditDestination.editIdArg])
+    private val editmenuId: Int = checkNotNull(savedStateHandle[ItemEditMenuDestination.editIdArg])
+//    private val editpesananId: Int = checkNotNull(savedStateHandle[ItemEditPesananDestination.editIdArg])
 
     // get (id)
     init {
         viewModelScope.launch {
-            menuUiState = repositoriMenu.getMenuStream(editId)
+            menuUiState = repositoriMenu.getMenuStream(editmenuId)
                 .filterNotNull()
                 .first()
                 .toUiStateMenu(true)
-            pesananUiState = repositoriPesanan.getPesananStream(editId)
-                .filterNotNull()
-                .first()
-                .toUiStatePesanan(true)
+//            pesananUiState = repositoriPesanan.getPesananStream(editpesananId)
+//                .filterNotNull()
+//                .first()
+//                .toUiStatePesanan(true)
         }
     }
 

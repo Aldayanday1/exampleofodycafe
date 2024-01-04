@@ -33,7 +33,8 @@ object DestinasiStart : DestinasiNavigasi {
 
 @Composable
 fun StartScreen(
-    onNextButtonClicked: () -> Unit
+    onNextButtonMenuClicked: () -> Unit,
+    onNextButtonPesananClicked: () -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
@@ -80,7 +81,7 @@ fun StartScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
-                        onClick = onNextButtonClicked,
+                        onClick = onNextButtonPesananClicked,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.DarkGray.copy(alpha = 0.2f),
                             contentColor = Color.White.copy(alpha = 0.8f)
@@ -92,7 +93,7 @@ fun StartScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
-                        onClick = onNextButtonClicked,
+                        onClick = onNextButtonMenuClicked,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.DarkGray.copy(alpha = 0.2f), /** Mengubah warna ke DarkGray dengan Transparansi 20%*/
                             contentColor = Color.White.copy(alpha = 0.8f) /** Menambah transparansi*/

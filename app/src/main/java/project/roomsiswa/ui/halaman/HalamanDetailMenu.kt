@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,13 +43,14 @@ import project.roomsiswa.model.DetailsViewModel
 import project.roomsiswa.model.ItemDetailsUiState
 import project.roomsiswa.model.PenyediaViewModel
 import project.roomsiswa.model.toSiswa
+import project.roomsiswa.navigasi.CafeTopAppBar
 import project.roomsiswa.navigasi.DestinasiNavigasi
 import project.roomsiswa.navigasi.MenuTopAppBar
 import project.roomsiswa.navigasi.SiswaTopAppBar
 
-object DetailsDestination : DestinasiNavigasi {
+object DetailsMenuDestination : DestinasiNavigasi {
     override val route = "item_details"
-    override val titleRes = R.string.detail_siswa
+    override val titleRes = R.string.title_detail_menu
     const val detailIdArg = "itemId"
     val routeWithArgs = "$route/{$detailIdArg}"
 }
@@ -62,9 +65,12 @@ fun DetailsScreen(
 ){
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            MenuTopAppBar(
+            CafeTopAppBar(
                 title = stringResource(DetailsDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack

@@ -23,19 +23,19 @@ class EntryViewModel(
         private set
 
     /* Fungsi untuk memvalidasi input */
-    private fun validasiInput(uiState: DetailMenu = uiStateMenu.detailMenu): Boolean {
+    private fun validasiInputMenu(uiState: DetailMenu = uiStateMenu.detailMenu): Boolean {
         return with(uiState) {
             idmenu != 0 && menu.isNotBlank() && harga.isNotBlank() && ketersediaan.isNotBlank() && kategori.isNotBlank()
         }
     }
 
-    fun updateUiState(detailMenu: DetailMenu) {
-        uiStateMenu = UIStateMenu(detailMenu = detailMenu, isEntryValid = validasiInput(detailMenu))
+    fun updateUiStateMenu(detailMenu: DetailMenu) {
+        uiStateMenu = UIStateMenu(detailMenu = detailMenu, isEntryValid = validasiInputMenu(detailMenu))
     }
 
     // insert
     suspend fun saveMenu() {
-        if (validasiInput()) {
+        if (validasiInputMenu()) {
             repositoriMenu.insertMenu(uiStateMenu.detailMenu.toMenu())
         }
     }

@@ -42,8 +42,19 @@
     <string name="nav_menu">Menu</string>
     <string name="nav_pesanan">Pesanan</string>
 
+    // TITLE RES
+    <string name="welcome">Welcome!</string>
+
+    <string name="title_entry_menu">Entry Menu</string>
+    <string name="title_edit_menu">Edit Menu</string>
+    <string name="title_detail_menu">Detail Menu</string>
+
+    <string name="title_entry_pesanan">Entry Pesanan</string>
+    <string name="title_edit_pesanan">Edit Pesanan</string>
+    <string name="title_detail_pesanan">Detail Pesanan</string>
+
     <string name="deskripsi_no_item">Ups, Sorry :( Data Kosong</string>
-    <string name="required_field">* required fields</string>
+    <string name="required_field">Required Fields!</string>
     <string name="btn_submit">Submit</string>
     <string name="back">Back</string>
     <string name="yes">Ya</string>
@@ -51,7 +62,6 @@
     <string name="delete">Hapus</string>
     <string name="update">Edit</string>
     <string name="attention">Perhatian</string>
-    <string name="welcome">Welcome!</string>
     <string name="tanya">Apakah anda yakin menghapus ini?</string>
 
 </resources>
