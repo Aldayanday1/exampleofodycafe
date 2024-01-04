@@ -15,16 +15,16 @@ import project.roomsiswa.model.PenyediaViewModel
 import project.roomsiswa.navigasi.CafeTopAppBar
 import project.roomsiswa.navigasi.DestinasiNavigasi
 
-object ItemEditMenuDestination : DestinasiNavigasi {
-    override val route = "item_edit_menu"
-    override val titleRes = R.string.title_edit_menu
+object ItemEditPesananDestination : DestinasiNavigasi {
+    override val route = "item_edit_pesanan"
+    override val titleRes = R.string.title_edit_pesanan
     const val editIdArg = "itemId"
     val routeWithArgs = "$route/{$editIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemEditMenuScreen(
+fun ItemEditPesananScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -34,19 +34,19 @@ fun ItemEditMenuScreen(
     Scaffold(
         topBar = {
             CafeTopAppBar(
-                title = stringResource(ItemEditMenuDestination.titleRes),
+                title = stringResource(ItemEditPesananDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        EntryMenuBody(
-            uiStateMenu = viewModel.menuUiState,
-            onMenuValueChange = viewModel::updateUiStateMenu,
+        EntryPesananBody(
+            uiStatePesanan = viewModel.pesananUiState,
+            onPesananValueChange = viewModel::updateUiStatePesanan,
             onSaveClick = {
                 coroutineScope.launch {
-                    viewModel.updateMenu()
+                    viewModel.updatePesanan()
                     navigateBack()
                 }
             },

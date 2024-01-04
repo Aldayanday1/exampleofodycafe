@@ -1,6 +1,6 @@
 package project.roomsiswa.ui.halaman
 
-import Menu
+import Pesanan
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,27 +41,29 @@ import kotlinx.coroutines.launch
 import project.roomsiswa.R
 import project.roomsiswa.model.DetailsViewModel
 import project.roomsiswa.model.ItemDetailsMenuUiState
+import project.roomsiswa.model.ItemDetailsPesananUiState
 import project.roomsiswa.model.PenyediaViewModel
 import project.roomsiswa.model.toMenu
+import project.roomsiswa.model.toPesanan
 import project.roomsiswa.navigasi.CafeTopAppBar
 import project.roomsiswa.navigasi.DestinasiNavigasi
 
-object DetailsMenuDestination : DestinasiNavigasi {
-    override val route = "item_details_menu"
-    override val titleRes = R.string.title_detail_menu
+object DetailsPesananDestination : DestinasiNavigasi {
+    override val route = "item_details_pesanan"
+    override val titleRes = R.string.title_detail_pesanan
     const val detailIdArg = "itemId"
     val routeWithArgs = "$route/{$detailIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsMenuScreen(
+fun DetailsPesananScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = viewModel(factory = PenyediaViewModel.Factory) /** -> Penyedia View Model */
 ){
-    val uiState = viewModel.uiStateMenu.collectAsState()
+    val uiState = viewModel.uiStatePesanan.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -69,7 +71,7 @@ fun DetailsMenuScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CafeTopAppBar(
-                title = stringResource(DetailsMenuDestination.titleRes),
+                title = stringResource(DetailsPesananDestination.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
             )
@@ -77,8 +79,8 @@ fun DetailsMenuScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    uiState.value.detailMenu.idmenu?.let {
-                        id -> navigateToEditItem(id)
+                    uiState.value.detailPesanan.idpesanan?.let {
+                            id -> navigateToEditItem(id)
                     }
                 },
                 shape = MaterialTheme.shapes.medium,
@@ -86,16 +88,16 @@ fun DetailsMenuScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(id = R.string.edit_menu),
+                    contentDescription = stringResource(id = R.string.edit_pesanan),
                 )
             }
         },
     ) { innerPadding ->
-        ItemMenuDetailBody(
-            itemDetailsMenuUiState = uiState.value,
+        ItemPesananDetailBody(
+            itemDetailsPesananUiState = uiState.value,
             onDelete = {
                 coroutineScope.launch {
-                    viewModel.deleteMenuItem()
+                    viewModel.deletePesananItem()
                     navigateBack()
                 }
             },
@@ -103,13 +105,12 @@ fun DetailsMenuScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
         )
-
     }
 }
 
 @Composable
-private fun ItemMenuDetailBody(
-    itemDetailsMenuUiState: ItemDetailsMenuUiState,
+private fun ItemPesananDetailBody(
+    itemDetailsPesananUiState: ItemDetailsPesananUiState,
     onDelete:() -> Unit,
     modifier: Modifier = Modifier
 ){
@@ -118,8 +119,8 @@ private fun ItemMenuDetailBody(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         var deleteConfirmationRequired by rememberSaveable{ mutableStateOf(false) }
-        ItemMenuDetails(
-            menu = itemDetailsMenuUiState.detailMenu.toMenu(),
+        ItemPesananDetails(
+            pesanan = itemDetailsPesananUiState.detailPesanan.toPesanan(),
             modifier = Modifier.fillMaxWidth()
         )
         /** Tombol Button */
@@ -131,13 +132,14 @@ private fun ItemMenuDetailBody(
             Text(stringResource(id = R.string.delete))
         }
         if (deleteConfirmationRequired){
-            DeleteMenuConfirmationDialog(
+            DeletePesananConfirmationDialog(
                 onDeleteConfirm = {
                     deleteConfirmationRequired = false
                     onDelete()
                 },
                 onDeleteCancel = { deleteConfirmationRequired = false },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)
+                modifier = Modifier.padding(
+                    dimensionResource(id = R.dimen.padding_medium)
                 )
             )
         }
@@ -146,8 +148,8 @@ private fun ItemMenuDetailBody(
 }
 
 @Composable
-fun ItemMenuDetails(
-    menu : Menu, modifier: Modifier =Modifier
+fun ItemPesananDetails(
+    pesanan : Pesanan, modifier: Modifier = Modifier
 ){
     Card(
         modifier = modifier,
@@ -163,36 +165,43 @@ fun ItemMenuDetails(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
             ItemMenuDetailsRow(
+                labelResID = R.string.idpesanan1,
+                itemDetail = pesanan.idpesanan.toString(),
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            ItemMenuDetailsRow(
+                labelResID = R.string.nama1,
+                itemDetail = pesanan.nama,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            ItemMenuDetailsRow(
+                labelResID = R.string.detail1,
+                itemDetail = pesanan.detail,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            ItemMenuDetailsRow(
+                labelResID = R.string.metode1,
+                itemDetail = pesanan.metode,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            ItemMenuDetailsRow(
+                labelResID = R.string.tanggal1,
+                itemDetail = pesanan.tanggal,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
+                )
+            )
+            ItemMenuDetailsRow(
                 labelResID = R.string.idmenu1,
-                itemDetail = menu.idmenu.toString(),
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemMenuDetailsRow(
-                labelResID = R.string.menu1,
-                itemDetail = menu.menu,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemMenuDetailsRow(
-                labelResID = R.string.harga1,
-                itemDetail = menu.harga,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemMenuDetailsRow(
-                labelResID = R.string.ketersediaan1,
-                itemDetail = menu.ketersediaan,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemMenuDetailsRow(
-                labelResID = R.string.kategori1,
-                itemDetail = menu.kategori,
+                itemDetail = pesanan.idMenuForeignKey.toString(),
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
@@ -203,7 +212,7 @@ fun ItemMenuDetails(
 }
 
 @Composable
-fun ItemMenuDetailsRow(
+fun ItemPesananDetailsRow(
     @StringRes labelResID: Int, itemDetail: String, modifier: Modifier = Modifier
 ){
     Row (
@@ -216,15 +225,15 @@ fun ItemMenuDetailsRow(
 }
 
 @Composable
-private fun DeleteMenuConfirmationDialog(
+private fun DeletePesananConfirmationDialog(
     onDeleteConfirm: () -> Unit,
     onDeleteCancel: () -> Unit,
     modifier: Modifier = Modifier
 ){
     AlertDialog(
         onDismissRequest = { /*TODO*/ },
-        title = { Text(stringResource(id = R.string.attention))},
-        text = { Text(text = stringResource(id = R.string.delete))},
+        title = { Text(stringResource(id = R.string.attention)) },
+        text = { Text(text = stringResource(id = R.string.delete)) },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDeleteCancel) {

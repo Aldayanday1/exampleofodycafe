@@ -1,5 +1,7 @@
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tblMenu")
@@ -20,9 +22,9 @@ data class Menu(
         parentColumns = ["idmenu"],
         childColumns = ["idMenuForeignKey"],
         onDelete = ForeignKey.CASCADE
-    )]
+    )],
+    indices = [Index("idMenuForeignKey")] // Menambahkan index untuk idMenuForeignKey
 )
-
 data class Pesanan(
     @PrimaryKey
     val idpesanan : Int,
@@ -30,5 +32,6 @@ data class Pesanan(
     val detail : String,
     val metode : String,
     val tanggal : String,
+    @ColumnInfo(name = "idMenuForeignKey")
     val idMenuForeignKey: Int // Foreign key reference to idmenu from Menu
 )

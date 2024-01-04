@@ -22,13 +22,21 @@ import androidx.navigation.navArgument
 import project.roomsiswa.R
 import project.roomsiswa.ui.halaman.DestinasiMenu
 import project.roomsiswa.ui.halaman.DestinasiMenuEntry
+import project.roomsiswa.ui.halaman.DestinasiPesanan
+import project.roomsiswa.ui.halaman.DestinasiPesananEntry
 import project.roomsiswa.ui.halaman.DestinasiStart
 import project.roomsiswa.ui.halaman.DetailsMenuDestination
-import project.roomsiswa.ui.halaman.DetailsScreen
+import project.roomsiswa.ui.halaman.DetailsMenuScreen
+import project.roomsiswa.ui.halaman.DetailsPesananDestination
+import project.roomsiswa.ui.halaman.DetailsPesananScreen
 import project.roomsiswa.ui.halaman.EntryMenuScreen
+import project.roomsiswa.ui.halaman.EntryPesananScreen
 import project.roomsiswa.ui.halaman.ItemEditMenuDestination
-import project.roomsiswa.ui.halaman.ItemEditScreen
+import project.roomsiswa.ui.halaman.ItemEditMenuScreen
+import project.roomsiswa.ui.halaman.ItemEditPesananDestination
+import project.roomsiswa.ui.halaman.ItemEditPesananScreen
 import project.roomsiswa.ui.halaman.MenuScreen
+import project.roomsiswa.ui.halaman.PesananScreen
 import project.roomsiswa.ui.halaman.StartScreen
 
 @Composable
@@ -73,7 +81,7 @@ fun HostNavigasi(
         composable(DestinasiStart.route){
             StartScreen (
                 onNextButtonMenuClicked = {navController.navigate(DestinasiMenu.route)},
-                onNextButtonPesananClicked = {navController.navigate(DestinasiMenu.route)},
+                onNextButtonPesananClicked = {navController.navigate(DestinasiPesanan.route)},
             )
         }
 
@@ -100,7 +108,7 @@ fun HostNavigasi(
                 type = NavType.IntType
             })
         ) {
-            DetailsScreen(
+            DetailsMenuScreen(
                 navigateBack = { navController.popBackStack() },
                 navigateToEditItem = {
                     navController.navigate("${ItemEditMenuDestination.route}/$it")
@@ -113,12 +121,52 @@ fun HostNavigasi(
                 type = NavType.IntType
             })
         ) {
-            ItemEditScreen(
+            ItemEditMenuScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )
         }
 
         /* ------------- NAV PESANAN ------------ */
+
+        composable(DestinasiPesanan.route){
+            PesananScreen(
+                navigateToItemEntry = {navController.navigate(DestinasiPesananEntry.route)},
+                onDetailClick = {
+                    navController.navigate("${DetailsPesananDestination.route}/$it")
+                },
+            )
+        }
+        composable(DestinasiPesananEntry.route){
+            EntryPesananScreen(
+                navigateBack = { navController.popBackStack()},
+                onNavigateUp = { navController.navigateUp() },
+                modifier = Modifier
+            )
+        }
+        composable(
+            DetailsPesananDestination.routeWithArgs,
+            arguments = listOf(navArgument(DetailsPesananDestination.detailIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailsPesananScreen(
+                navigateBack = { navController.popBackStack() },
+                navigateToEditItem = {
+                    navController.navigate("${ItemEditPesananDestination.route}/$it")
+                }
+            )
+        }
+        composable(
+            ItemEditPesananDestination.routeWithArgs,
+            arguments = listOf(navArgument(ItemEditPesananDestination.editIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            ItemEditPesananScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
     }
 }

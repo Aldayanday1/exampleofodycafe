@@ -7,6 +7,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -37,7 +38,15 @@ interface PesananDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(pesanan: Pesanan)
-
+    @Transaction
+    suspend fun insertWithValidation(pesanan: Pesanan) {
+        val menuIdExists = checkMenuExistence(pesanan.idMenuForeignKey) > 0
+        if (menuIdExists) {
+            insert(pesanan)
+        } else {
+            throw IllegalArgumentException("Menu ID does not exist")
+        }
+    }
     @Update
     suspend fun update(pesanan: Pesanan)
 

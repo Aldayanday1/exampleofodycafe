@@ -43,7 +43,8 @@
     <string name="nav_pesanan">Pesanan</string>
 
     // TITLE RES
-    <string name="welcome">Welcome!</string>
+    <string name="welcome_menu">Welcome to Menu Page!</string>
+    <string name="welcome_pesanan">Welcome to Pesanan Page!</string>
 
     <string name="title_entry_menu">Entry Menu</string>
     <string name="title_edit_menu">Edit Menu</string>

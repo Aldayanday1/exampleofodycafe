@@ -1,6 +1,6 @@
 package project.roomsiswa.ui.halaman
 
-import Menu
+import Pesanan
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +13,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -50,14 +45,14 @@ import project.roomsiswa.model.PenyediaViewModel
 import project.roomsiswa.navigasi.CafeTopAppBar
 import project.roomsiswa.navigasi.DestinasiNavigasi
 
-object DestinasiMenu : DestinasiNavigasi{
-    override val route = "menu"
-    override val titleRes = R.string.welcome_menu
+object DestinasiPesanan : DestinasiNavigasi {
+    override val route = "pesanan"
+    override val titleRes = R.string.welcome_pesanan
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(
+fun PesananScreen(
     navigateToItemEntry: () -> Unit,
     modifier: Modifier = Modifier,
     onDetailClick: (Int) -> Unit = {},
@@ -69,7 +64,7 @@ fun MenuScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CafeTopAppBar(
-                title = stringResource(DestinasiMenu.titleRes),
+                title = stringResource(DestinasiPesanan.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
             )
@@ -82,46 +77,46 @@ fun MenuScreen(
             ){
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.entry_menu)
+                    contentDescription = stringResource(R.string.entry_pesanan)
                 )
             }
         },
     ){
             innerPadding ->
-        val uiStateMenu by viewModel.menuUiState.collectAsState()
-        BodyMenu(
-            itemMenu = uiStateMenu.listMenu,
+        val uiStatePesanan by viewModel.pesananUiState.collectAsState()
+        BodyPesanan(
+            itemPesanan = uiStatePesanan.listPesanan,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            onMenuClick = onDetailClick
+            onPesananClick = onDetailClick
         )
     }
 }
 
 @Composable
-fun BodyMenu(
-    itemMenu: List<Menu>,
+fun BodyPesanan(
+    itemPesanan: List<Pesanan>,
     modifier: Modifier = Modifier,
-    onMenuClick: (Int) -> Unit = {}
+    onPesananClick: (Int) -> Unit = {}
 ){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ){
-        if (itemMenu.isEmpty()) {
+        if (itemPesanan.isEmpty()) {
             /** kalau list data kosong, makan muncul teks ini*/
             Text(
                 text = stringResource(R.string.deskripsi_no_item),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
             )
-            /** kalau ada isi data nya muncul = list menu*/
+            /** kalau ada isi data nya muncul = list pesanan*/
         } else {
-            ListMenu(
-                itemMenu = itemMenu,
+            ListPesanan(
+                itemPesanan = itemPesanan,
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
-                onItemMenuClick = {onMenuClick(it.idmenu)
+                onItemPesananClick = {onPesananClick(it.idpesanan)
                 }
             )
         }
@@ -129,27 +124,27 @@ fun BodyMenu(
 }
 
 @Composable
-fun ListMenu(
-    itemMenu: List<Menu>,
-    modifier: Modifier= Modifier,
-    onItemMenuClick: (Menu) -> Unit
+fun ListPesanan(
+    itemPesanan: List<Pesanan>,
+    modifier: Modifier = Modifier,
+    onItemPesananClick: (Pesanan) -> Unit
 ){
     LazyColumn(modifier = Modifier){
-        items(items = itemMenu, key = {it.idmenu}){
+        items(items = itemPesanan, key = {it.idpesanan}){
                 person ->
-            DataMenu(
-                menu = person,
+            DataPesanan(
+                pesanan = person,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onItemMenuClick(person) }
+                    .clickable { onItemPesananClick(person) }
             )
         }
     }
 }
 
 @Composable
-fun DataMenu(
-    menu: Menu,
+fun DataPesanan(
+    pesanan: Pesanan,
     modifier: Modifier = Modifier
 ){
     Card (
@@ -169,13 +164,13 @@ fun DataMenu(
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
                 Text(
-                    text = stringResource(id = R.string.idmenu1),
+                    text = stringResource(id = R.string.idpesanan1),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
                 Text(
-                    text = menu.idmenu.toString(),
+                    text = pesanan.idpesanan.toString(),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -183,18 +178,18 @@ fun DataMenu(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_small)))
             Row {
                 Icon(
-                    imageVector = Icons.Default.Menu,
+                    imageVector = Icons.Default.Face,
                     contentDescription = null,
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
                 Text(
-                    text = stringResource(id = R.string.menu1),
+                    text = stringResource(id = R.string.nama1),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
                 Text(
-                    text = menu.menu,
+                    text = pesanan.nama,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -207,13 +202,13 @@ fun DataMenu(
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
                 Text(
-                    text = stringResource(id = R.string.harga1),
+                    text = stringResource(id = R.string.detail1),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
                 Text(
-                    text = menu.harga,
+                    text = pesanan.detail,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -226,13 +221,13 @@ fun DataMenu(
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
                 Text(
-                    text = stringResource(id = R.string.ketersediaan1),
+                    text = stringResource(id = R.string.metode1),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
                 Text(
-                    text = menu.ketersediaan,
+                    text = pesanan.metode,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
@@ -245,13 +240,33 @@ fun DataMenu(
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
                 Text(
-                    text = stringResource(id = R.string.kategori1),
+                    text = stringResource(id = R.string.tanggal1),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
                 Text(
-                    text = menu.kategori,
+                    text = pesanan.tanggal,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Row (
+                modifier = Modifier.fillMaxSize()
+            ){
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = null,
+                )
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
+                Text(
+                    text = stringResource(id = R.string.idmenu1),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_extra_Large)))
+                Text(
+                    text = pesanan.idMenuForeignKey.toString(),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )

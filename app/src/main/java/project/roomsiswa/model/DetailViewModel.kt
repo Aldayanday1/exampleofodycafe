@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import project.roomsiswa.repositori.RepositoriMenu
 import project.roomsiswa.repositori.RepositoriPesanan
-import project.roomsiswa.ui.halaman.DetailsDestination
+import project.roomsiswa.ui.halaman.DetailsMenuDestination
 
 class DetailsViewModel (
     savedStateHandle: SavedStateHandle,
@@ -23,7 +23,7 @@ class DetailsViewModel (
         private const val TIMEOUT_MILLIS = 5_000L
     }
 
-    private val detailId: Int = checkNotNull(savedStateHandle[DetailsDestination.detailIdArg])
+    private val detailId: Int = checkNotNull(savedStateHandle[DetailsMenuDestination.detailIdArg])
 
     // get id Menu
     val uiStateMenu: StateFlow<ItemDetailsMenuUiState> =
