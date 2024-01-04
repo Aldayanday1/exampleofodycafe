@@ -171,7 +171,7 @@ fun FormInputPesanan(
                     else detailPesanan.copy(idpesanan = it.toIntOrNull())
                 )
             },
-            label = { Text(stringResource(R.string.idmenu)) },
+            label = { Text(stringResource(R.string.menu)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true,

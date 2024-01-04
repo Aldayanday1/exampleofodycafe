@@ -22,7 +22,7 @@ abstract class DatabaseCafe : RoomDatabase(){
         fun getDatabase(context: Context): DatabaseCafe {
             return (Instance?: synchronized(this){
                 Room.databaseBuilder(context, DatabaseCafe::class.java, "database_cafe_ody")
-                    .build().also { Instance=it }
+                    .build().also { Instance = it }
             })
         }
     }

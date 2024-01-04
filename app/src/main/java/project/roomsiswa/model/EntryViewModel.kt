@@ -6,6 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import project.roomsiswa.repositori.RepositoriMenu
 import project.roomsiswa.repositori.RepositoriPesanan
 
@@ -56,15 +59,32 @@ class EntryViewModel(
     }
 
     fun updateUiStatePesanan(detailPesanan: DetailPesanan) {
-        uiStatePesanan = UIStatePesanan(detailPesanan = detailPesanan, isEntryValid = validasiInputPesanan(detailPesanan))
+        uiStatePesanan = UIStatePesanan(
+            detailPesanan = detailPesanan,
+            isEntryValid = validasiInputPesanan(detailPesanan)
+        )
     }
-
     // insert Pesanan
     suspend fun savePesanan() {
         if (validasiInputPesanan()) {
             repositoriPesanan.insertPesanan(uiStatePesanan.detailPesanan.toPesanan())
         }
     }
+
+    // Fungsi untuk mendapatkan daftar idmenu dari repositoriMenu
+    fun getAllMenuIds(): Flow<List<Int>> {
+        return repositoriMenu.getAllMenuStream()
+            .map { menuList -> menuList.map { it.idmenu } }
+    }
+
+    // Fungsi untuk memperbarui UIStatePesanan dengan daftar idmenu yang ada
+    fun updateUiStatePesananWithMenuIds(detailPesanan: DetailPesanan, menuIds: List<Int>) {
+        uiStatePesanan = UIStatePesanan(
+            detailPesanan = detailPesanan,
+            isEntryValid = validasiInputPesanan(detailPesanan)
+        ).copy(menuIds = menuIds)
+    }
+
 }
 
 /* ------------- MENU ------------ */
@@ -110,7 +130,8 @@ fun Menu.toDetailMenu(): DetailMenu = DetailMenu(
 // Mewakili Status Ui untuk Pesanan
 data class UIStatePesanan(
     val detailPesanan: DetailPesanan = DetailPesanan(),
-    val isEntryValid: Boolean = false
+    val isEntryValid: Boolean = false,
+    val menuIds: List<Int> = emptyList()
 )
 
 data class DetailPesanan(

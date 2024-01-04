@@ -28,6 +28,7 @@ class OfflineRepositoriCafe(
 
 
     override suspend fun insertPesanan(pesanan: Pesanan) = pesananDao.insert(pesanan)
+    override suspend fun insertPesananWithValidation(pesanan: Pesanan) = pesananDao.insertWithValidation(pesanan)
 
     override suspend fun updatePesanan(pesanan: Pesanan) = pesananDao.update(pesanan)
 

@@ -44,7 +44,7 @@ interface PesananDao {
         if (menuIdExists) {
             insert(pesanan)
         } else {
-            throw IllegalArgumentException("Menu ID does not exist")
+            throw IllegalArgumentException("ID Menu tidak tersedia")
         }
     }
     @Update
